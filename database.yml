@@ -1,0 +1,28 @@
+Description: >
+    Joko Sarjono S / Udacity = Intro to Devops Course
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource
+    Type: String
+
+Resources:
+  UdacityProjectDatabase:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBSecurityGroups:
+      - !Ref DBSecurityGroup
+      AllocatedStorage: '20'
+      DBInstanceClass: db.t2.micro
+      Engine: MySQL
+      MasterUsername: username
+      MasterUserPassword: password
+    DeletionPolicy: Snapshot
+
+  DBSecurityGroup:
+    Type: "AWS::RDS::DBSecurityGroup"
+    Properties:
+      DBSecurityGroupIngress: #required
+        - EC2SecurityGroupId: sg-04f353046b04fd2ee
+      EC2VpcId: vpc-0d58ae5a71413b603
+      GroupDescription: Udacity Project Database Group #required
