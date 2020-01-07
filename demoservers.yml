@@ -1,11 +1,10 @@
 Description: >
-    Joko Sarjono S / Udacity Introduction to Cloud DevOps
+    Joko Sarjono S / Udacity : Intro to Devops Course
 
 Parameters:
-
-    EnvironmentName:
-        Description: An environment name that will be prefixed to resource names
-        Type: String
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource
+    Type: String
 
 Resources:
   LBSecGroup:
@@ -33,10 +32,10 @@ Resources:
   WebServerSecGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Allow http to client host
+      GroupDescription: Allow http / SSH only from local VPC
       VpcId:
         Fn::ImportValue: !Sub "${EnvironmentName}-VPCID"
-      GroupName: Security Group for Load Balancer
+      GroupName: Security Group for WebServer internal traffic
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 8080
@@ -49,7 +48,7 @@ Resources:
       SecurityGroupEgress:
         - IpProtocol: tcp
           FromPort: 0
-          ToPort: 65536
+          ToPort: 65535
           CidrIp: 0.0.0.0/0
 
   WebAppLaunchConfig:
